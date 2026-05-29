@@ -72,25 +72,25 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.AllInOne.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.Desktop.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.MiniPc.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.Pc.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.Monitor.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.Printer.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 db.Ups.belongsTo(db.DispenseStatus, {
-  foreignKey: "status",
+  foreignKey: "dispense_status",
 });
 
 // 5. ส่งออกระบบไปใช้ร่วมกัน

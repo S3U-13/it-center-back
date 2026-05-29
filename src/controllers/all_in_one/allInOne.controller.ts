@@ -45,4 +45,14 @@ export class AllInOneController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      await AllInOneService.Delete(Number(id));
+      return res.status(200).json({ success: true, message: "delete success" });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

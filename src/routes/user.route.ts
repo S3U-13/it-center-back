@@ -24,6 +24,7 @@ router.get("/all-in-one", AllInOneController.index);
 router.post("/all-in-one", AllInOneController.create);
 router.get("/all-in-one/:id", AllInOneController.show);
 router.put("/all-in-one/:id", AllInOneController.edit);
+router.delete("/all-in-one/:id", AllInOneController.delete);
 
 // desktop
 router.get("/desktop", DesktopController.index);
@@ -36,6 +37,7 @@ router.get("/mini-pc", MiniPcController.index);
 router.post("/mini-pc", MiniPcController.create);
 router.get("/mini-pc/:id", MiniPcController.show);
 router.put("/mini-pc/:id", MiniPcController.edit);
+router.delete("/mini-pc/:id", MiniPcController.delete);
 
 // monitor
 router.get("/monitor", MonitorController.index);

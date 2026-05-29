@@ -9,44 +9,55 @@ export class AllInOneService {
     const limit = parseInt(query?.limit || 10);
     const offset = (page - 1) * limit;
 
-    const { search } = query;
+    const {
+      search,
+      dispense_status_id,
+      location_id,
+      func_unit_id,
+      start_date,
+      end_date,
+    } = query;
     const where: any = {};
 
+    // 1. ค้นหาจากเลข SN (โค้ดเดิมของคุณ)
     if (search) {
       where.sn = {
         [Op.like]: `%${search}%`,
       };
     }
 
+    // 2. ค้นหาจาก IDs ต่างๆ (ถ้าส่งมาและไม่เป็นค่าว่าง)
+    if (dispense_status_id) {
+      where.dispense_status = dispense_status_id;
+    }
+
+    if (location_id) {
+      where.location = location_id;
+    }
+
+    if (func_unit_id) {
+      where.FuncUnitID = func_unit_id;
+    }
+
+    // 3. ค้นหาแบบช่วงวันที่ (Date Range) ด้วย Op.between
+    if (start_date && end_date) {
+      where.createdAt = {
+        // เปลี่ยนเป็นชื่อคอลัมน์วันที่ใน Database ของคุณ (เช่น date, createdAt)
+        [Op.between]: [start_date, end_date],
+      };
+    } else if (start_date) {
+      where.createdAt = {
+        [Op.gte]: start_date, // ตั้งแต่วันที่เริ่ม
+      };
+    } else if (end_date) {
+      where.createdAt = {
+        [Op.lte]: end_date, // จนถึงวันที่สิ้นสุด
+      };
+    }
+
     const { rows, count } = await db.AllInOne.findAndCountAll({
-      attributes: [
-        "id",
-        "service_tag",
-        "express_code",
-        "sn",
-        "rpj_no",
-        "main_asset_number",
-        "purchase_price",
-        "salvage_value",
-        "purchase_date",
-        "receive_date",
-        "warranty_start",
-        "warranty_end",
-        "note",
-        "keyboard",
-        "mouse",
-        "adapter",
-        "adapter_type",
-        "machineName",
-        "FuncUnitID",
-        "location",
-        "dispense_status",
-        "payer",
-        "pay_date",
-        "createdAt",
-        "updatedAt",
-      ],
       where,
+      include: [{ model: db.DispenseStatus, attributes: ["id", "name"] }],
       limit,
       offset,
     });
@@ -84,6 +95,9 @@ export class AllInOneService {
           FuncUnit: func_unit ? func_unit.FuncUnitName : "ไม่ระบุ", // ป้องกันระบบแครชหากหาชื่อกลุ่มงานไม่เจอ
           pay_date: row.pay_date,
           dispense_status: row.dispense_status,
+          dispense_status_name: row.DispenseStatus
+            ? row.DispenseStatus.name
+            : "ไม่ระบุ",
         };
       }),
     );
@@ -98,13 +112,14 @@ export class AllInOneService {
       },
     };
   }
+
   static async create(body: any) {
-    const { all_in_ones } = body;
+    const { array_data } = body;
 
     if (
-      !all_in_ones ||
-      !Array.isArray(all_in_ones) ||
-      all_in_ones.length === 0
+      !array_data ||
+      !Array.isArray(array_data) ||
+      array_data.length === 0
     ) {
       throw new Error("All In One must be a non-empty array");
     }
@@ -118,7 +133,7 @@ export class AllInOneService {
     ];
 
     //const map
-    const mappingAllInOne = all_in_ones.map((i, index) => {
+    const mappingAllInOne = array_data.map((i, index) => {
       if (!i) {
         throw new Error(`Item at index ${index} cannot be null or undefined`);
       }
@@ -150,6 +165,7 @@ export class AllInOneService {
         FuncUnitID: parseInt(i.FuncUnitID) || null,
         location: parseInt(i.location) || null,
         pay_date: i.pay_date || null, // new Date(), // ถ้าไม่ส่งมา ให้ใช้วันที่ปัจจุบัน
+        payer: i.payer,
         dispense_status: i?.dispense_status || 2,
       };
     });
@@ -157,29 +173,29 @@ export class AllInOneService {
   }
   static async show(id: number) {
     return await db.AllInOne.findByPk(id, {
-      attributes: [
-        "service_tag",
-        "express_code",
-        "sn",
-        "rpj_no",
-        "purchase_price",
-        "salvage_value",
-        "purchase_date",
-        "receive_date",
-        "warranty_start",
-        "warranty_end",
-        "main_asset_number",
-        "note",
-        "keyboard",
-        "mouse",
-        "adapter",
-        "adapter_type",
-        "machineName",
-        "FuncUnitID",
-        "location",
-        "pay_date",
-        "dispense_status",
-      ],
+      // attributes: [
+      //   "service_tag",
+      //   "express_code",
+      //   "sn",
+      //   "rpj_no",
+      //   "purchase_price",
+      //   "salvage_value",
+      //   "purchase_date",
+      //   "receive_date",
+      //   "warranty_start",
+      //   "warranty_end",
+      //   "main_asset_number",
+      //   "note",
+      //   "keyboard",
+      //   "mouse",
+      //   "adapter",
+      //   "adapter_type",
+      //   "machineName",
+      //   "FuncUnitID",
+      //   "location",
+      //   "pay_date",
+      //   "dispense_status",
+      // ],
     });
   }
 
@@ -205,6 +221,7 @@ export class AllInOneService {
       FuncUnitID,
       location,
       pay_date,
+      payer,
       dispense_status,
     } = body;
 
@@ -256,9 +273,16 @@ export class AllInOneService {
         FuncUnitID,
         location,
         pay_date,
+        payer,
         dispense_status,
       },
       { where: id },
     );
+  }
+  
+  static async Delete(id: number) {
+    await db.AllInOne.destroy({
+      where: { id: id }, // ลบแถวที่มี id ตรงกับที่ส่งมาทันที
+    });
   }
 }

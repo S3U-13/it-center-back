@@ -25,7 +25,7 @@ class MiniPc extends Model<
   declare keyboard: CreationOptional<string>;
   declare mouse: CreationOptional<string>;
   declare adapter: CreationOptional<string>;
-  declare adapter_typ: string | null;
+  declare adapter_type: string | null;
   declare machineName: string | null;
   declare FuncUnitID: number | null;
   declare location: number | null;
@@ -101,7 +101,7 @@ MiniPc.init(
       type: DataTypes.STRING(30),
       allowNull: true,
     },
-    adapter_typ: {
+    adapter_type: {
       type: DataTypes.STRING(30),
       allowNull: true,
     },
