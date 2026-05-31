@@ -22,7 +22,7 @@ export class UpsController {
         message: "success",
       });
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -32,7 +32,7 @@ export class UpsController {
       const data = await UpsService.show(Number(id));
       return res.status(200).json(data);
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -40,9 +40,19 @@ export class UpsController {
     try {
       const id = req.params.id;
       await UpsService.edit(Number(id), req.body);
-      return res.status(200).json({ massage: "edit success" });
+      return res.status(200).json({ message: "edit success" });
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      await UpsService.Delete(Number(id));
+      return res.status(200).json({ success: true, message: "delete success" });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
     }
   }
 }

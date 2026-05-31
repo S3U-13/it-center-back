@@ -73,8 +73,6 @@ export class MiniPcService {
         // จัดฟอร์แมตข้อมูลส่งกลับไปสะสมใน Array (ระบุเผื่อกรณีไม่มีข้อมูลในฐานข้อมูลย่อยด้วย)
         return {
           id: row.id,
-          service_tag: row.service_tag,
-          express_code: row.express_code,
           sn: row.sn,
           rpj_no: row.rpj_no,
           purchase_price: row.purchase_price,
@@ -83,7 +81,6 @@ export class MiniPcService {
           receive_date: row.receive_date,
           warranty_start: row.warranty_start,
           warranty_end: row.warranty_end,
-          main_asset_number: row.main_asset_number,
           note: row.note,
           keyboard: row.keyboard,
           mouse: row.mouse,
@@ -118,7 +115,7 @@ export class MiniPcService {
       throw new Error("MiniPc must be a non-empty array");
     }
 
-    const requiredFields = ["sn", "rpj_no", "FuncUnitID", "status", "location"];
+    const requiredFields = ["sn", "rpj_no", "FuncUnitID", "dispense_status", "location"];
 
     //const map
     const mappingMiniPc = array_data.map((i, index) => {
@@ -199,7 +196,7 @@ export class MiniPcService {
       dispense_status,
     } = body;
 
-    const requiredFields = ["sn", "FuncUnitID", "status", "location"];
+    const requiredFields = ["sn", "FuncUnitID", "dispense_status", "location"];
 
     // 1. แก้ไขการตรวจสอบค่าว่าง: ดึงค่าจาก body[field] มาเช็คจริง ๆ
     for (const field of requiredFields) {

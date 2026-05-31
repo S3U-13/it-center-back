@@ -23,8 +23,8 @@ class Monitor extends Model<
   declare warranty_end: Date | null;
   declare note: CreationOptional<string>;
   declare adapter: CreationOptional<string>;
-  declare adapter_typ: string | null;
-  declare machineName: string | null;
+  declare adapter_type: string | null;
+  // declare machineName: string | null;
   declare FuncUnitID: number | null;
   declare location: number | null;
   declare payer: number | null;
@@ -91,14 +91,14 @@ Monitor.init(
       type: DataTypes.STRING(30),
       allowNull: true,
     },
-    adapter_typ: {
+    adapter_type: {
       type: DataTypes.STRING(30),
       allowNull: true,
     },
-    machineName: {
-      type: DataTypes.STRING(30),
-      allowNull: true,
-    },
+    // machineName: {
+    //   type: DataTypes.STRING(30),
+    //   allowNull: true,
+    // },
     FuncUnitID: {
       type: DataTypes.INTEGER,
       allowNull: true,

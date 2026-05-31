@@ -7,6 +7,7 @@ import { PcController } from "../controllers/pc/pc.controller";
 import { PrinterController } from "../controllers/printer/printer.controller";
 import { UpsController } from "../controllers/ups/ups.controller";
 import { FilterChoiceController } from "../controllers/filter_choice/filterChoice.controller";
+// import { apiKeyAuth } from "../middleware/apiKeyAuth";
 const router = Router();
 // const apiLogger = require("../middleware/apiLogger");
 // const {
@@ -18,6 +19,7 @@ const router = Router();
 // router.use(authenticateToken, apiLogger, authorizeRole(1));
 
 // router.get("/mapAll", AllChoiceController.mapAll);
+// router.use(apiKeyAuth); // ใช้ middleware สำหรับตรวจสอบ API key
 
 // all in one
 router.get("/all-in-one", AllInOneController.index);
@@ -31,6 +33,7 @@ router.get("/desktop", DesktopController.index);
 router.post("/desktop", DesktopController.create);
 router.get("/desktop/:id", DesktopController.show);
 router.put("/desktop/:id", DesktopController.edit);
+router.delete("/desktop/:id", DesktopController.delete);
 
 // mini pc
 router.get("/mini-pc", MiniPcController.index);
@@ -44,24 +47,27 @@ router.get("/monitor", MonitorController.index);
 router.post("/monitor", MonitorController.create);
 router.get("/monitor/:id", MonitorController.show);
 router.put("/monitor/:id", MonitorController.edit);
+router.delete("/monitor/:id", MonitorController.delete);
 
 // pc
 router.get("/pc", PcController.index);
 router.post("/pc", PcController.create);
 router.get("/pc/:id", PcController.show);
 router.put("/pc/:id", PcController.edit);
-
+router.delete("/pc/:id", PcController.delete);
 // printer
 router.get("/printer", PrinterController.index);
 router.post("/printer", PrinterController.create);
 router.get("/printer/:id", PrinterController.show);
 router.put("/printer/:id", PrinterController.edit);
+router.delete("/printer/:id", PrinterController.delete);
 
 // ups
 router.get("/ups", UpsController.index);
 router.post("/ups", UpsController.create);
 router.get("/ups/:id", UpsController.show);
 router.put("/ups/:id", UpsController.edit);
+router.delete("/ups/:id", UpsController.delete);
 
 // choice
 router.get("/choice", FilterChoiceController.Choice);

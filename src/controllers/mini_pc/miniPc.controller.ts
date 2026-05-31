@@ -22,7 +22,7 @@ export class MiniPcController {
         message: "success",
       });
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -32,7 +32,7 @@ export class MiniPcController {
       const data = await MiniPcService.show(Number(id));
       return res.status(200).json(data);
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -40,9 +40,9 @@ export class MiniPcController {
     try {
       const id = req.params.id;
       await MiniPcService.edit(Number(id), req.body);
-      return res.status(200).json({ massage: "edit success" });
+      return res.status(200).json({ message: "edit success" });
     } catch (error: any) {
-      return res.status(400).json({ error: error.massage });
+      return res.status(400).json({ error: error.message });
     }
   }
 

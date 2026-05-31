@@ -22,7 +22,7 @@ class Pc extends Model<InferAttributes<Pc>, InferCreationAttributes<Pc>> {
   declare keyboard: CreationOptional<string>;
   declare mouse: CreationOptional<string>;
   declare adapter: string | null;
-  declare adapterType: string | null;
+  declare adapter_type: string | null;
   declare machineName: string | null;
   declare FuncUnitID: number | null;
   declare location: number | null;
@@ -98,7 +98,7 @@ Pc.init(
       type: DataTypes.STRING(30),
       allowNull: true,
     },
-    adapterType: {
+    adapter_type: {
       type: DataTypes.STRING(30),
       allowNull: true,
     },

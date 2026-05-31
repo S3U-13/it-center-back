@@ -105,7 +105,7 @@ Printer.init(
   },
   {
     sequelize, // ใช้ตัวแปรอินสแตนซ์ที่ดึงมาจาก index.ts
-    tableName: "printer",
+    tableName: "printers",
     timestamps: true,
   },
 );
