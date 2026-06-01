@@ -7,6 +7,7 @@ import { PcController } from "../controllers/pc/pc.controller";
 import { PrinterController } from "../controllers/printer/printer.controller";
 import { UpsController } from "../controllers/ups/ups.controller";
 import { FilterChoiceController } from "../controllers/filter_choice/filterChoice.controller";
+import { DashboardController } from "../controllers/dashboard/dashboard.controller";
 // import { apiKeyAuth } from "../middleware/apiKeyAuth";
 const router = Router();
 // const apiLogger = require("../middleware/apiLogger");
@@ -71,5 +72,8 @@ router.delete("/ups/:id", UpsController.delete);
 
 // choice
 router.get("/choice", FilterChoiceController.Choice);
+
+// dashboard
+router.get("/dashboard", DashboardController.DashboardSummary);
 
 export default router;
