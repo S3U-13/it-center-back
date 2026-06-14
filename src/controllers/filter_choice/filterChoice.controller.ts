@@ -4,23 +4,90 @@ import { FilterChoiceService } from "../../services/filter_choice/filterChoice.s
 export class FilterChoiceController {
   static async Choice(req: Request, res: Response) {
     try {
-      const location = await FilterChoiceService.Location(req.query);
-      const func_unit = await FilterChoiceService.FuncUnit(req.query);
-      const dispense_status = await FilterChoiceService.DispenseStatus(
-        req.query,
-      );
-      const payers = await FilterChoiceService.Payers(req.query);
-
-      const count_location = location.length ?? 0;
-      const count_func_unit = func_unit.length ?? 0;
+      const [
+        location,
+        func_unit,
+        dispense_status,
+        payers,
+        hardware_type,
+        brand,
+        model,
+        screening_size_desktop,
+        screening_size_tablet,
+        cpu,
+        ram,
+        storage_type,
+        operating_system,
+        gpu,
+        gpu_type,
+        true_false,
+        printer_type,
+        connection,
+        ups_type,
+        resolution,
+        scanner_type,
+        os_version,
+        monitor_type,
+        adaptor_type,
+        storage_capacity,
+      ] = await Promise.all([
+        FilterChoiceService.Location(req.query),
+        FilterChoiceService.FuncUnit(req.query),
+        FilterChoiceService.DispenseStatus(req.query),
+        FilterChoiceService.Payers(req.query),
+        FilterChoiceService.HardwareType(req.query),
+        FilterChoiceService.Brand(req.query),
+        FilterChoiceService.Model(req.query),
+        FilterChoiceService.ScreenSizeDesktop(req.query),
+        FilterChoiceService.ScreenSizeTablet(req.query),
+        FilterChoiceService.Cpu(req.query),
+        FilterChoiceService.Ram(req.query),
+        FilterChoiceService.StorageType(req.query),
+        FilterChoiceService.OperatingSystem(req.query),
+        FilterChoiceService.Gpu(req.query),
+        FilterChoiceService.GpuType(req.query),
+        FilterChoiceService.TrueFalse(req.query),
+        FilterChoiceService.PrinterType(req.query),
+        FilterChoiceService.Connection(req.query),
+        FilterChoiceService.UPSType(req.query),
+        FilterChoiceService.Resolution(req.query),
+        FilterChoiceService.ScannerType(req.query),
+        FilterChoiceService.OSVersion(req.query),
+        FilterChoiceService.MonitorType(req.query),
+        FilterChoiceService.AdaptorType(req.query),
+        FilterChoiceService.StorageCapacity(req.query),
+      ]);
+      // const count_location = location.length ?? 0;
+      // const count_func_unit = func_unit.length ?? 0;
       return res.status(200).json({
         success: true,
         location,
         func_unit,
         dispense_status,
         payers,
-        count_location,
-        count_func_unit,
+        // count_location,
+        // count_func_unit,
+        hardware_type,
+        brand,
+        model,
+        screening_size_desktop,
+        screening_size_tablet,
+        cpu,
+        ram,
+        storage_type,
+        operating_system,
+        gpu,
+        gpu_type,
+        true_false,
+        printer_type,
+        connection,
+        ups_type,
+        resolution,
+        scanner_type,
+        os_version,
+        monitor_type,
+        adaptor_type,
+        storage_capacity,
       });
     } catch (error: any) {
       return res.status(500).json({ error: error.message });

@@ -8,6 +8,7 @@ import { PrinterController } from "../controllers/printer/printer.controller";
 import { UpsController } from "../controllers/ups/ups.controller";
 import { FilterChoiceController } from "../controllers/filter_choice/filterChoice.controller";
 import { DashboardController } from "../controllers/dashboard/dashboard.controller";
+import { HardwareController } from "../controllers/hardware/hardware.controller";
 // import { apiKeyAuth } from "../middleware/apiKeyAuth";
 const router = Router();
 // const apiLogger = require("../middleware/apiLogger");
@@ -23,8 +24,8 @@ const router = Router();
 // router.use(apiKeyAuth); // ใช้ middleware สำหรับตรวจสอบ API key
 
 // all in one
-router.get("/all-in-one", AllInOneController.index);
-router.post("/all-in-one", AllInOneController.create);
+router.get("/all-in-one", HardwareController.index);
+router.post("/all-in-one", HardwareController.create);
 router.get("/all-in-one/:id", AllInOneController.show);
 router.put("/all-in-one/:id", AllInOneController.edit);
 router.delete("/all-in-one/:id", AllInOneController.delete);

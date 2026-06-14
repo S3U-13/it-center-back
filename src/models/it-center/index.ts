@@ -71,26 +71,232 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-db.AllInOne.belongsTo(db.DispenseStatus, {
+// hardware has many =========================
+
+db.Hardware.hasOne(db.HardwareAccessories, {
+  foreignKey: "hardware_id",
+  as: "Accessories",
+});
+db.Hardware.hasOne(db.HardwarePurchases, {
+  foreignKey: "hardware_id",
+  as: "Purchases",
+});
+db.Hardware.hasOne(db.HardwareLocations, {
+  foreignKey: "hardware_id",
+  as: "Locations",
+});
+db.Hardware.hasOne(db.HardwareIdentifiers, {
+  foreignKey: "hardware_id",
+  as: "Identifies",
+});
+
+db.Hardware.hasOne(db.ComputerDetails, {
+  foreignKey: "hardware_id",
+  as: "Computers",
+});
+db.Hardware.hasOne(db.PrinterDetails, {
+  foreignKey: "hardware_id",
+  as: "Printer",
+});
+db.Hardware.hasOne(db.TabletDetails, {
+  foreignKey: "hardware_id",
+  as: "Tablet",
+});
+db.Hardware.hasOne(db.HardwareBrands, {
+  foreignKey: "hardware_id",
+  as: "Brands",
+});
+db.Hardware.hasOne(db.MonitorDetails, {
+  foreignKey: "hardware_id",
+  as: "Monitor",
+});
+
+// // =============== categories_type ============== //
+db.CategoriesTypes.hasMany(db.Categories, {
+  foreignKey: "type_id",
+  as: "Categories",
+});
+
+// // ===========================================
+// // =============== belong to ==================
+
+db.HardwareAccessories.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.HardwarePurchases.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.HardwareLocations.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.HardwareIdentifiers.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.ComputerDetails.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.PrinterDetails.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.TabletDetails.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+
+// // ================= categories ==================
+db.Categories.belongsTo(db.CategoriesTypes, {
+  foreignKey: "type_id",
+  as: "CategoriesTypes",
+});
+
+// // ====================== hardware brands ====================== //
+db.HardwareBrands.belongsTo(db.Categories, {
+  foreignKey: "brand",
+  as: "Brand",
+});
+
+db.HardwareBrands.belongsTo(db.Categories, {
+  foreignKey: "model",
+  as: "Model",
+});
+
+// // =============== choice computer to categories =============== //
+db.Hardware.belongsTo(db.Categories, {
+  foreignKey: "hardware_type",
+  as: "HardWareType",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "screening_size",
+  as: "ScreeningSizeComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "resolution",
+  as: "ResolutionComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "monitor_type",
+  as: "MonitorTypeComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "cpu",
+  as: "CpuComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "ram",
+  as: "RamComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "storage_type",
+  as: "StorageTypeComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "storage_capacity",
+  as: "StorageCapacityComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "operating_system",
+  as: "OperatingSystemComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "gpu",
+  as: "GpuComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "gpu_type",
+  as: "GpuTypeComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "wifi",
+  as: "WifiComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "bluetooth",
+  as: "BluetoothComputer",
+});
+db.ComputerDetails.belongsTo(db.Categories, {
+  foreignKey: "built_in_camera",
+  as: "BuiltInCameraComputer",
+});
+
+// // ===================== printer ===================== //
+db.PrinterDetails.belongsTo(db.Categories, {
+  foreignKey: "printer_type",
+  as: "PrinterType",
+});
+db.PrinterDetails.belongsTo(db.Categories, {
+  foreignKey: "connection",
+  as: "Connection",
+});
+
+// // ===================== tablet ===================== //
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "screen_size",
+  as: "ScreenSizeTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "resolution",
+  as: "ResolutionTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "monitor_type",
+  as: "MonitorTypeTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "cpu",
+  as: "CpuTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "ram",
+  as: "RamTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "storage_type",
+  as: "StorageTypeTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "storage_capacity",
+  as: "StorageCapacityTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "operating_system",
+  as: "OperatingSystemTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "gpu",
+  as: "GpuTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "gpu_type",
+  as: "GpuTypeTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "wifi",
+  as: "WifiTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "bluetooth",
+  as: "BluetoothTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "bluetooth",
+  as: "BuiltInCameraTablet",
+});
+
+db.Hardware.belongsTo(db.DispenseStatus, {
   foreignKey: "dispense_status",
 });
-db.Desktop.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
+
+// =================== monitor detail ==================== //
+db.MonitorDetails.belongsTo(db.Categories, {
+  foreignKey: "screening_size",
+  as: "ScreeningSizeMonitor",
 });
-db.MiniPc.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
+db.MonitorDetails.belongsTo(db.Categories, {
+  foreignKey: "resolution",
+  as: "ResolutionMonitor",
 });
-db.Pc.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
-});
-db.Monitor.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
-});
-db.Printer.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
-});
-db.Ups.belongsTo(db.DispenseStatus, {
-  foreignKey: "dispense_status",
+db.MonitorDetails.belongsTo(db.Categories, {
+  foreignKey: "monitor_type",
+  as: "MonitorType",
 });
 
 // 5. ส่งออกระบบไปใช้ร่วมกัน

@@ -56,4 +56,216 @@ export class FilterChoiceService {
 
     return formatData;
   }
+
+  static async HardwareType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 1,
+      },
+    });
+    return data;
+  }
+  static async Brand(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 2,
+      },
+    });
+    return data;
+  }
+  static async Model(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 3,
+      },
+    });
+    return data;
+  }
+  static async ScreenSizeDesktop(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 4,
+      },
+    });
+    return data;
+  }
+  static async ScreenSizeTablet(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 5,
+      },
+    });
+    return data;
+  }
+  static async Cpu(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 6,
+      },
+    });
+    return data;
+  }
+  static async Ram(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 7,
+      },
+    });
+    return data;
+  }
+  static async StorageType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 8,
+      },
+    });
+    return data;
+  }
+
+  static async OperatingSystem(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 9,
+      },
+    });
+    return data;
+  }
+  static async Gpu(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 10,
+      },
+    });
+    return data;
+  }
+  static async GpuType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 11,
+      },
+    });
+    return data;
+  }
+  static async TrueFalse(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 12,
+      },
+    });
+    return data;
+  }
+  static async PrinterType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 13,
+      },
+    });
+    return data;
+  }
+  static async Connection(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 14,
+      },
+    });
+    return data;
+  }
+  static async UPSType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 15,
+      },
+    });
+    return data;
+  }
+  static async Resolution(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 16,
+      },
+    });
+    return data;
+  }
+  static async ScannerType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 17,
+      },
+    });
+    return data;
+  }
+  static async OSVersion(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 18,
+      },
+    });
+    return data;
+  }
+  static async MonitorType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 19,
+      },
+    });
+    return data;
+  }
+  static async AdaptorType(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 20,
+      },
+    });
+    return data;
+  }
+  static async StorageCapacity(query: any) {
+    const data = await db.Categories.findAll({
+      attributes: ["id", "name"],
+      where: {
+        flag_cancel: "N",
+        type_id: 21,
+      },
+    });
+    return data;
+  }
 }

@@ -16,7 +16,7 @@ export class DashboardService {
 
     const sum_aio_pc_desk_top_mini_pc = aio + pc + desktop + mini_pc;
     return {
-      total_devices :sum_aio_pc_desk_top_mini_pc,
+      total_devices: sum_aio_pc_desk_top_mini_pc,
       aio,
       pc,
       desktop,
