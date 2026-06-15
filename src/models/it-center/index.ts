@@ -110,6 +110,10 @@ db.Hardware.hasOne(db.MonitorDetails, {
   foreignKey: "hardware_id",
   as: "Monitor",
 });
+db.Hardware.hasOne(db.UPSDetails, {
+  foreignKey: "hardware_id",
+  as: "USP",
+});
 
 // // =============== categories_type ============== //
 db.CategoriesTypes.hasMany(db.Categories, {
@@ -139,6 +143,9 @@ db.PrinterDetails.belongsTo(db.Hardware, {
   foreignKey: "hardware_id",
 });
 db.TabletDetails.belongsTo(db.Hardware, {
+  foreignKey: "hardware_id",
+});
+db.UPSDetails.belongsTo(db.Hardware, {
   foreignKey: "hardware_id",
 });
 

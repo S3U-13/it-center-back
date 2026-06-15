@@ -43,7 +43,7 @@ Location.init(
   },
   {
     sequelize, // ใช้ตัวแปรอินสแตนซ์ที่ดึงมาจาก index.ts
-    tableName: "Location",
+    tableName: "location",
     timestamps: false,
   },
 );

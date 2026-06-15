@@ -209,6 +209,12 @@ export class HardwareService {
         default:
           break;
       }
-    } catch (error) {}
+      await t.commit();
+      return { success: true };
+    } catch (error) {
+      await t.rollback();
+      console.error("HardwareEdit Error:", error);
+      throw error; // throw ออกไปให้ Controller จัดการต่อ
+    }
   }
 }

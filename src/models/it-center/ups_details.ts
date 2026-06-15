@@ -8,9 +8,9 @@ import {
 import { sequelize } from "./index"; // ✨ แก้จุดนี้: ให้ดึงอินสแตนซ์มาจากศูนย์กลาง index.ts ในโฟลเดอร์เดียวกัน
 
 // 1. สร้าง Class โดยใช้ InferAttributes เพื่อให้ดึง Type ไปใช้ได้อัตโนมัติ
-class PrinterDetails extends Model<
-  InferAttributes<PrinterDetails>,
-  InferCreationAttributes<PrinterDetails>
+class UPSDetails extends Model<
+  InferAttributes<UPSDetails>,
+  InferCreationAttributes<UPSDetails>
 > {
   declare hardware_id: CreationOptional<number>;
   declare ups_type: CreationOptional<number | null>;
@@ -27,7 +27,7 @@ class PrinterDetails extends Model<
 }
 
 // 2. กำหนดโครงสร้างคอลัมน์ (Schema) ของตาราง
-PrinterDetails.init(
+UPSDetails.init(
   {
     hardware_id: {
       type: DataTypes.INTEGER,
@@ -61,4 +61,4 @@ PrinterDetails.init(
   },
 );
 
-export default PrinterDetails;
+export default UPSDetails;
