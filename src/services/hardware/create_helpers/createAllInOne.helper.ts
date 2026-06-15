@@ -5,7 +5,6 @@ export async function CreateAllInOne(
   hardware: any,
   t: Transaction,
 ) {
-  console.log(hardware);
   const mapLocation = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
     FuncUnitID: i.FuncUnitID,
@@ -17,7 +16,7 @@ export async function CreateAllInOne(
   const mapPurchase = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
     purchase_price: i.purchase,
-    salvage_value: i.salvage_value,
+    salvage_value: i.salvage_value || 0,
     purchase_date: i.purchase_date || null,
     receive_date: i.receive_date || null,
     warranty_start: i.warranty_start || null,
@@ -26,7 +25,7 @@ export async function CreateAllInOne(
 
   const mapAccessories = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
-    adapter: i.adapter,
+    adapter: i.adapter || null,
     adapter_type: i.adapter_type,
     mouse: i.mouse,
     keyboard: i.keyboard,

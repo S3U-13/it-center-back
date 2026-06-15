@@ -87,7 +87,7 @@ db.Hardware.hasOne(db.HardwareLocations, {
 });
 db.Hardware.hasOne(db.HardwareIdentifiers, {
   foreignKey: "hardware_id",
-  as: "Identifies",
+  as: "Identifiers",
 });
 
 db.Hardware.hasOne(db.ComputerDetails, {

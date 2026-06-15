@@ -5,7 +5,7 @@ export class HardwareController {
   static async index(req: Request, res: Response) {
     try {
       const data = await HardwareService.AllInOneIndex(req.query);
-      return res.status(200).json(data);
+      return res.status(200).json({ success: true, ...data });
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }

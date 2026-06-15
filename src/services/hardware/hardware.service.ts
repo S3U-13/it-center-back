@@ -1,6 +1,14 @@
 import db from "../../models/it-center/index";
-import dbPPK from "../../models/ppkhosp/index";
-import { Op, Transaction } from "sequelize";
+
+import { AllInOne } from "./index_helpers/indexAllInOne.helper";
+import { Desktop } from "./index_helpers/indexDesktop.helper";
+import { MiniPc } from "./index_helpers/indexMiniPc.helper";
+import { Pc } from "./index_helpers/indexPc.helper";
+import { Monitor } from "./index_helpers/indexMonitor.helper";
+import { Printer } from "./index_helpers/indexPrinter.helper";
+import { UPS } from "./index_helpers/indexUPS.helper";
+import { Tablet } from "./index_helpers/indexTablet.helper";
+
 import { CreateAllInOne } from "./create_helpers/createAllInOne.helper";
 import { CreateDesktop } from "./create_helpers/createDesktop.helper";
 import { CreateMiniPc } from "./create_helpers/createMiniPc.helper";
@@ -10,122 +18,35 @@ import { CreatePrinter } from "./create_helpers/createPrinter.helper";
 import { CreateUPS } from "./create_helpers/createUPS.helper";
 import { CreateTablet } from "./create_helpers/createTablet.helper";
 
+import { EditAllInOne } from "./edit_helpers/editAllInOne.helper";
+
 export class HardwareService {
   static async AllInOneIndex(query: Hardware.queryIndexType) {
-    const page = query?.page || 1;
-    const limit = query?.limit || 10;
-    const offset = (Number(page) - 1) * Number(limit);
-
-    const {
-      search,
-      dispense_status,
-      location,
-      FuncUnitID,
-      start_date,
-      end_date,
-      pay_date,
-      payer,
-      hardware_type,
-    } = query;
-
-    const where: any = {};
-    if (search) {
-      where.sn = {
-        [Op.like]: `%${search}%}`,
-      };
-    }
-
-    if (dispense_status) {
-      where.dispense_status = dispense_status;
-    }
-
-    if (location) {
-      where.location = location;
-    }
-
-    if (FuncUnitID) {
-      where.FuncUnitID = FuncUnitID;
-    }
-
-    if (start_date && end_date) {
-      where.createdAt = {
-        [Op.between]: [start_date, end_date],
-      };
-    } else if (start_date) {
-      where.createdAt = {
-        [Op.gte]: start_date,
-      };
-    } else if (end_date) {
-      where.createdAt = {
-        [Op.lte]: end_date,
-      };
-    }
-
-    if (pay_date) {
-      where.pay_date = pay_date;
-    }
-
-    if (payer) {
-      where.payer = payer;
-    }
-
-    if (hardware_type) {
-      where.hardware_type = hardware_type;
-    }
-
-    const { rows, count } = await db.Hardware.findAndCountAll({
-      where,
-      include: [
-        {
-          model: db.HardwareLocations,
-          attributes: [
-            "FuncUnitID",
-            "location",
-            "person_in_charge",
-            "contact_number",
-          ],
-          as: "Locations",
-        },
-        { model: db.DispenseStatus, attributes: ["id", "name"] },
-      ],
-      limit,
-      offset,
-    });
-
-    const formatData = await Promise.all(
-      rows.map(async (row: any) => {
-        const [location, func_unit] = await Promise.all([
-          dbPPK.Location.findOne({ where: { id: row.Locations.location } }),
-          dbPPK.FuncUnit.findOne({ where: { id: row.Locations.FuncUnitID } }),
-        ]);
-
+    const { hardware_type } = query;
+    // console.log(hardware_type);
+    switch (Number(hardware_type)) {
+      case 1:
+        return await AllInOne(query);
+      case 2:
+        return await Desktop(query);
+      case 3:
+        return await MiniPc(query);
+      case 4:
+        return await Pc(query);
+      case 5:
+        return await Monitor(query);
+      case 6:
+        return await Printer(query);
+      case 7:
+        return await UPS(query);
+      case 8:
+        return await Tablet(query);
+      default:
         return {
-          id: row.id,
-          sn: row.sn,
-          rpj_no: row.rpj_no,
-          note: row.note,
-          pay_date: row.pay_date,
-          machine_name: row.machine_name,
-          hardware_type: row.hardware_type,
-          payer: row.payer,
-          location: location ? location.detailtext : "ไม่ระบุ", // ป้องกันระบบแครชหากหาตำแหน่งไม่เจอ
-          FuncUnit: func_unit ? func_unit.FuncUnitName : "ไม่ระบุ", // ป้องกันระบบแครชหากหาชื่อกลุ่มงานไม่เจอ
-          dispense_status: row.dispense_status,
-          dispense_status_name: row.DispenseStatus
-            ? row.DispenseStatus.name
-            : "ไม่ระบุ",
+          data: [],
+          pagination: { page: 1, limit: 10, total: 0, totalPages: 0 },
         };
-      }),
-    );
-    return {
-      data: formatData,
-      pagination: {
-        page,
-        limit,
-        total: count,
-        totalPages: Math.ceil(count / Number(limit)),
-      },
-    };
+    }
   }
 
   static async HardwareCreate(body: any) {
@@ -133,8 +54,8 @@ export class HardwareService {
     try {
       const { hardware_type, array_data } = body;
 
-      console.log(hardware_type);
-      console.log(array_data);
+      // console.log(hardware_type);
+      // console.log(array_data);
 
       if (
         !array_data ||
@@ -168,6 +89,7 @@ export class HardwareService {
           rpj_no: i.rpj_no || null,
           machine_name: i.machine_name,
           note: i.note || null,
+          payer: i.payer || null,
           pay_date: i.pay_date,
           hardware_type: hardware_type,
           dispense_status: i.dispense_status,
@@ -213,5 +135,80 @@ export class HardwareService {
       await t.rollback();
       throw error;
     }
+  }
+
+  static async HardwareShow(id: number, hardware_type: number) {
+    switch (hardware_type) {
+      case 1:
+        return;
+      case 2:
+        return;
+      case 3:
+        return;
+      case 4:
+        return;
+      case 5:
+        return;
+      case 6:
+        return;
+      case 7:
+        return;
+      case 8:
+        return;
+      default:
+        return null;
+    }
+  }
+  static async HardwareEdit(id: number, hardware_type: number, body: any) {
+    const t = db.sequelize.transaction();
+    try {
+      const {
+        sn,
+        rpj_no,
+        machine_name,
+        note,
+        payer,
+        pay_date,
+        dispense_status,
+      } = body;
+
+      await db.Hardware.update(
+        {
+          sn: sn,
+          rpj_no: rpj_no,
+          machine_name: machine_name,
+          note: note,
+          payer: payer,
+          pay_date: pay_date,
+          dispense_status: dispense_status,
+        },
+        { where: { id } },
+        {
+          transaction: t,
+        },
+      );
+      switch (hardware_type) {
+        case 1:
+          await EditAllInOne(id, body, t);
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
+        case 5:
+          break;
+        case 6:
+          break;
+        case 7:
+          break;
+        case 8:
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {}
   }
 }
