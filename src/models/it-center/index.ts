@@ -167,21 +167,10 @@ db.HardwareBrands.belongsTo(db.Categories, {
 });
 
 // // =============== choice computer to categories =============== //
+
 db.Hardware.belongsTo(db.Categories, {
   foreignKey: "hardware_type",
   as: "HardWareType",
-});
-db.ComputerDetails.belongsTo(db.Categories, {
-  foreignKey: "screening_size",
-  as: "ScreeningSizeComputer",
-});
-db.ComputerDetails.belongsTo(db.Categories, {
-  foreignKey: "resolution",
-  as: "ResolutionComputer",
-});
-db.ComputerDetails.belongsTo(db.Categories, {
-  foreignKey: "monitor_type",
-  as: "MonitorTypeComputer",
 });
 db.ComputerDetails.belongsTo(db.Categories, {
   foreignKey: "cpu",
@@ -234,19 +223,12 @@ db.PrinterDetails.belongsTo(db.Categories, {
   as: "Connection",
 });
 
+db.HardwareAccessories.belongsTo(db.Categories, {
+  foreignKey: "adapter_type",
+  as: "AdapterType",
+});
+
 // // ===================== tablet ===================== //
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "screen_size",
-  as: "ScreenSizeTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "resolution",
-  as: "ResolutionTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "monitor_type",
-  as: "MonitorTypeTablet",
-});
 db.TabletDetails.belongsTo(db.Categories, {
   foreignKey: "cpu",
   as: "CpuTablet",

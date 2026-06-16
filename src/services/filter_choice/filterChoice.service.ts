@@ -25,8 +25,8 @@ export class FilterChoiceService {
     });
 
     const formatData = data.map((i: any) => ({
-      id: i.FuncUnitID,
-      name: i.FuncUnitName,
+      id: i.FuncunitID,
+      name: i.FuncunitName,
     }));
     return formatData;
   }

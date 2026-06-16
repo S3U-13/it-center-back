@@ -12,8 +12,8 @@ class FuncUnit extends Model<
   InferAttributes<FuncUnit>,
   InferCreationAttributes<FuncUnit>
 > {
-  declare FuncUnitID: CreationOptional<number>;
-  declare FuncUnitName: CreationOptional<string>;
+  declare FuncunitID: CreationOptional<number>;
+  declare FuncunitName: CreationOptional<string>;
   declare active: CreationOptional<string>;
 
   // 📝 เพิ่มช่องสำหรับทำความสัมพันธ์ (Associations) รองรับระบบใน index.ts v6
@@ -25,12 +25,12 @@ class FuncUnit extends Model<
 // 2. กำหนดโครงสร้างคอลัมน์ (Schema) ของตาราง
 FuncUnit.init(
   {
-    FuncUnitID: {
+    FuncunitID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    FuncUnitName: {
+    FuncunitName: {
       type: DataTypes.STRING,
       allowNull: true,
     },

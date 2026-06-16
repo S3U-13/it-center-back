@@ -20,4 +20,23 @@ export class HardwareController {
       return res.status(400).json({ error: error.message });
     }
   }
+  static async show(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const data = await HardwareService.HardwareShow(Number(id));
+      return res.status(200).json({ message: "success", data });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+  static async edit(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      await HardwareService.HardwareEdit(Number(id), req.body);
+      return res.status(200).json({ message: "edit success" });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

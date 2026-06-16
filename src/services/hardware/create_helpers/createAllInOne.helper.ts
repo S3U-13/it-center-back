@@ -15,7 +15,7 @@ export async function CreateAllInOne(
 
   const mapPurchase = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
-    purchase_price: i.purchase,
+    purchase_price: i.purchase_price,
     salvage_value: i.salvage_value || 0,
     purchase_date: i.purchase_date || null,
     receive_date: i.receive_date || null,

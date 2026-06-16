@@ -12,7 +12,6 @@ class Categories extends Model<
   InferAttributes<Categories>,
   InferCreationAttributes<Categories>
 > {
-  declare hardware_id: CreationOptional<number>;
   declare type_id: CreationOptional<number | null>;
   declare name: CreationOptional<number | null>;
   declare flag_cancel: CreationOptional<number | null>;
@@ -28,11 +27,6 @@ class Categories extends Model<
 // 2. กำหนดโครงสร้างคอลัมน์ (Schema) ของตาราง
 Categories.init(
   {
-    hardware_id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     type_id: {
       type: DataTypes.INTEGER,
       allowNull: true,

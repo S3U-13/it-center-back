@@ -1,5 +1,5 @@
 import db from "../../models/it-center/index";
-
+// index
 import { AllInOne } from "./index_helpers/indexAllInOne.helper";
 import { Desktop } from "./index_helpers/indexDesktop.helper";
 import { MiniPc } from "./index_helpers/indexMiniPc.helper";
@@ -8,7 +8,7 @@ import { Monitor } from "./index_helpers/indexMonitor.helper";
 import { Printer } from "./index_helpers/indexPrinter.helper";
 import { UPS } from "./index_helpers/indexUPS.helper";
 import { Tablet } from "./index_helpers/indexTablet.helper";
-
+// create
 import { CreateAllInOne } from "./create_helpers/createAllInOne.helper";
 import { CreateDesktop } from "./create_helpers/createDesktop.helper";
 import { CreateMiniPc } from "./create_helpers/createMiniPc.helper";
@@ -17,8 +17,24 @@ import { CreateMonitor } from "./create_helpers/createMonitor.helper";
 import { CreatePrinter } from "./create_helpers/createPrinter.helper";
 import { CreateUPS } from "./create_helpers/createUPS.helper";
 import { CreateTablet } from "./create_helpers/createTablet.helper";
-
+// show
+import { ShowAllInOne } from "./show_helpers/showAllInOne.helper";
+import { ShowDesktop } from "./show_helpers/showDesktop.helper";
+import { ShowMiniPc } from "./show_helpers/showMiniPc.helper";
+import { ShowPc } from "./show_helpers/showPc.helper";
+import { ShowMonitor } from "./show_helpers/showMonitor.helper";
+import { ShowPrinter } from "./show_helpers/showPrinter.helper";
+import { ShowUPS } from "./show_helpers/showUPS.helper";
+import { ShowTablet } from "./show_helpers/showTablet.helper";
+// edit
 import { EditAllInOne } from "./edit_helpers/editAllInOne.helper";
+import { EditDesktop } from "./edit_helpers/editDesktop.helper";
+import { EditMiniPc } from "./edit_helpers/editMiniPc.helper";
+import { EditPc } from "./edit_helpers/editPc.helper";
+import { EditMonitor } from "./edit_helpers/editMonitor.helper";
+import { EditPrinter } from "./edit_helpers/editPrinter.helper";
+import { EditUPS } from "./edit_helpers/editUPS.helper";
+import { EditTablet } from "./edit_helpers/editTablet.helper";
 
 export class HardwareService {
   static async AllInOneIndex(query: Hardware.queryIndexType) {
@@ -39,7 +55,7 @@ export class HardwareService {
         return await Printer(query);
       case 7:
         return await UPS(query);
-      case 8:
+      case 16:
         return await Tablet(query);
       default:
         return {
@@ -122,7 +138,7 @@ export class HardwareService {
         case 7:
           await CreateUPS(array_data, hardware, t);
           break;
-        case 8:
+        case 16:
           await CreateTablet(array_data, hardware, t);
           break;
 
@@ -137,32 +153,41 @@ export class HardwareService {
     }
   }
 
-  static async HardwareShow(id: number, hardware_type: number) {
+  static async HardwareShow(id: number) {
+    const data = await db.Hardware.findOne({
+      where: { id },
+      attributes: ["id", "hardware_type"],
+    });
+    if (!data) {
+      throw new Error("not found hardware");
+    }
+    const hardware_type = data.hardware_type;
     switch (hardware_type) {
       case 1:
-        return;
+        return await ShowAllInOne(id);
       case 2:
-        return;
+        return await ShowDesktop(id);
       case 3:
-        return;
+        return await ShowMiniPc(id);
       case 4:
-        return;
+        return await ShowPc(id);
       case 5:
-        return;
+        return await ShowMonitor(id);
       case 6:
-        return;
+        return await ShowPrinter(id);
       case 7:
-        return;
-      case 8:
-        return;
+        return await ShowUPS(id);
+      case 16:
+        return await ShowTablet(id);
       default:
         return null;
     }
   }
-  static async HardwareEdit(id: number, hardware_type: number, body: any) {
-    const t = db.sequelize.transaction();
+  static async HardwareEdit(id: number, body: any) {
+    const t = await db.sequelize.transaction();
     try {
       const {
+        hardware_type,
         sn,
         rpj_no,
         machine_name,
@@ -182,28 +207,32 @@ export class HardwareService {
           pay_date: pay_date,
           dispense_status: dispense_status,
         },
-        { where: { id } },
-        {
-          transaction: t,
-        },
+        { where: { id }, transaction: t },
       );
       switch (hardware_type) {
         case 1:
           await EditAllInOne(id, body, t);
           break;
         case 2:
+          await EditDesktop(id, body, t);
           break;
         case 3:
+          await EditMiniPc(id, body, t);
           break;
         case 4:
+          await EditPc(id, body, t);
           break;
         case 5:
+          await EditMonitor(id, body, t);
           break;
         case 6:
+          await EditPrinter(id, body, t);
           break;
         case 7:
+          await EditUPS(id, body, t);
           break;
-        case 8:
+        case 16:
+          await EditTablet(id, body, t);
           break;
 
         default:
@@ -211,7 +240,7 @@ export class HardwareService {
       }
       await t.commit();
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       await t.rollback();
       console.error("HardwareEdit Error:", error);
       throw error; // throw ออกไปให้ Controller จัดการต่อ

@@ -43,8 +43,6 @@ export async function AllInOne(query: Hardware.queryIndexType) {
   if (payer) where.payer = Number(payer);
   if (hardware_type) where.hardware_type = Number(hardware_type);
 
-  console.log({ ...where_location });
-
   // ดึงข้อมูลหลักจากฐานข้อมูล it-center
   const { rows, count } = await db.Hardware.findAndCountAll({
     where,
@@ -89,7 +87,7 @@ export async function AllInOne(query: Hardware.queryIndexType) {
       : [],
     funcUnitIds.length
       ? dbPPK.FuncUnit.findAll({
-          where: { FuncUnitID: { [Op.in]: funcUnitIds } },
+          where: { FuncunitID: { [Op.in]: funcUnitIds } },
         })
       : [],
   ]);
@@ -99,14 +97,14 @@ export async function AllInOne(query: Hardware.queryIndexType) {
     ppkLocations.map((l: any) => [String(l.id), l.detailtext]),
   );
   const funcUnitMap = new Map(
-    ppkFuncUnits.map((f: any) => [String(f.FuncUnitID), f.FuncUnitName]),
+    ppkFuncUnits.map((f: any) => [String(f.FuncunitID), f.FuncunitName]),
   );
 
   // 3. จัดโครงสร้างผลลัพธ์ (ไม่ต้องใช้ await ใน map อีกต่อไป)
   const formatData = plainRows.map((row: any) => {
     const locId = row.Locations?.location ? String(row.Locations.location) : "";
-    const funcId = row.Locations?.FuncUnitID
-      ? String(row.Locations.FuncUnitID)
+    const funcId = row.Locations?.FuncunitID
+      ? String(row.Locations.FuncunitID)
       : "";
 
     return {
