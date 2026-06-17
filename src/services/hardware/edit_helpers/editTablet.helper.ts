@@ -48,7 +48,7 @@ export async function EditTablet(id: Number, body: any, t: Transaction) {
       { where: { hardware_id: id }, transaction: t },
     ),
 
-    db.HardwareTabletDetails.update(
+    db.TabletDetails.update(
       {
         screening_size,
         imei_no,

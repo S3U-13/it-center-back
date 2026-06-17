@@ -27,8 +27,6 @@ export async function ShowTablet(id: number) {
             as: "ScreeningSizeTablet",
             attributes: ["id", "name"],
           },
-          { model: db.Categories, as: "CpuTablet", attributes: ["id", "name"] },
-          { model: db.Categories, as: "RamTablet", attributes: ["id", "name"] },
           {
             model: db.Categories,
             as: "StorageTablet",
@@ -104,7 +102,7 @@ export async function ShowTablet(id: number) {
     os_version: data.Tablet.os_version,
     os_version_name: data.Tablet.OSVersionTablet.name,
     mac_address_wifi: data.Tablet.mac_address_wifi,
-    mac_address_bluetooth: data.Tablet.bluetooth,
+    mac_address_bluetooth: data.Tablet.mac_address_bluetooth,
     pen_status: data.Tablet.pen_status,
     pen_status_name: data.Tablet.PenStatusTablet.name,
   };

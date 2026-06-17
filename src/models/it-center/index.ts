@@ -234,14 +234,6 @@ db.TabletDetails.belongsTo(db.Categories, {
   as: "ScreeningSizeTablet",
 });
 db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "cpu",
-  as: "CpuTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "ram",
-  as: "RamTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
   foreignKey: "storage",
   as: "StorageTablet",
 });

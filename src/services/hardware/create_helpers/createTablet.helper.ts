@@ -46,7 +46,7 @@ export async function CreateTablet(
     await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
     await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
     await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    await db.HardwareTabletDetails.bulkCreate(mapTabletDetails, {
+    await db.TabletDetails.bulkCreate(mapTabletDetails, {
       transaction: t,
     }),
   ]);

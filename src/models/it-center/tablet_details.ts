@@ -17,6 +17,7 @@ class TabletDetails extends Model<
   declare imei_no: CreationOptional<number | null>;
   declare storage: CreationOptional<number | null>;
   declare operating_system: CreationOptional<number | null>;
+  declare os_version: CreationOptional<number | null>;
   declare mac_address_wifi: CreationOptional<string | null>;
   declare mac_address_bluetooth: CreationOptional<string | null>;
   declare pen_status: CreationOptional<number | null>;
@@ -50,6 +51,10 @@ TabletDetails.init(
       allowNull: true,
     },
     operating_system: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    os_version: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
