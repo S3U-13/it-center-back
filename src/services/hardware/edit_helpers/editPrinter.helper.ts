@@ -42,7 +42,7 @@ export async function EditPrinter(id: Number, body: any, t: Transaction) {
       { brand, model },
       { where: { hardware_id: id }, transaction: t },
     ),
-    db.HardwarePrinterDetails.update(
+    db.PrinterDetails.update(
       {
         printer_type,
         connection,

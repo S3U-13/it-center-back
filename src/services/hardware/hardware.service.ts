@@ -70,7 +70,7 @@ export class HardwareService {
     try {
       const { hardware_type, array_data } = body;
 
-      // console.log(hardware_type);
+      console.log(hardware_type);
       // console.log(array_data);
 
       if (
@@ -81,13 +81,7 @@ export class HardwareService {
         throw new Error("Hardware must be a non-empty array");
       }
 
-      const requiredFields = [
-        "express_code",
-        "rpj_no",
-        "sn",
-        "FuncUnitID",
-        "location",
-      ];
+      const requiredFields = ["rpj_no", "sn", "FuncUnitID", "location"];
 
       const mapHardware = array_data.map((i, index) => {
         if (!i) {
@@ -148,7 +142,9 @@ export class HardwareService {
       await t.commit();
       return { success: true };
     } catch (error) {
-      await t.rollback();
+      if (t && !t.finished) {
+        await t.rollback();
+      }
       throw error;
     }
   }

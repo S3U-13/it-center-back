@@ -112,7 +112,7 @@ db.Hardware.hasOne(db.MonitorDetails, {
 });
 db.Hardware.hasOne(db.UPSDetails, {
   foreignKey: "hardware_id",
-  as: "USP",
+  as: "UPS",
 });
 
 // // =============== categories_type ============== //
@@ -230,6 +230,10 @@ db.HardwareAccessories.belongsTo(db.Categories, {
 
 // // ===================== tablet ===================== //
 db.TabletDetails.belongsTo(db.Categories, {
+  foreignKey: "screening_size",
+  as: "ScreeningSizeTablet",
+});
+db.TabletDetails.belongsTo(db.Categories, {
   foreignKey: "cpu",
   as: "CpuTablet",
 });
@@ -238,36 +242,22 @@ db.TabletDetails.belongsTo(db.Categories, {
   as: "RamTablet",
 });
 db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "storage_type",
-  as: "StorageTypeTablet",
+  foreignKey: "storage",
+  as: "StorageTablet",
 });
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "storage_capacity",
-  as: "StorageCapacityTablet",
-});
+
 db.TabletDetails.belongsTo(db.Categories, {
   foreignKey: "operating_system",
   as: "OperatingSystemTablet",
 });
 db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "gpu",
-  as: "GpuTablet",
+  foreignKey: "os_version",
+  as: "OSVersionTablet",
 });
+
 db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "gpu_type",
-  as: "GpuTypeTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "wifi",
-  as: "WifiTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "bluetooth",
-  as: "BluetoothTablet",
-});
-db.TabletDetails.belongsTo(db.Categories, {
-  foreignKey: "bluetooth",
-  as: "BuiltInCameraTablet",
+  foreignKey: "pen_status",
+  as: "PenStatusTablet",
 });
 
 db.Hardware.belongsTo(db.DispenseStatus, {
@@ -286,6 +276,16 @@ db.MonitorDetails.belongsTo(db.Categories, {
 db.MonitorDetails.belongsTo(db.Categories, {
   foreignKey: "monitor_type",
   as: "MonitorType",
+});
+
+// =================== ups detail ==================== //
+db.UPSDetails.belongsTo(db.Categories, {
+  foreignKey: "ups_type",
+  as: "UPSType",
+});
+db.UPSDetails.belongsTo(db.Categories, {
+  foreignKey: "battery_capacity",
+  as: "BatteryCapacityUPS",
 });
 
 // 5. ส่งออกระบบไปใช้ร่วมกัน

@@ -16,7 +16,7 @@ export async function CreateDesktop(
   const mapPurchase = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
     purchase_price: i.purchase_price,
-    salvage_value: i.salvage_value,
+    salvage_value: i.salvage_value || 0,
     purchase_date: i.purchase_date || null,
     receive_date: i.receive_date || null,
     warranty_start: i.warranty_start || null,
@@ -25,11 +25,18 @@ export async function CreateDesktop(
 
   const mapAccessories = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
-    adapter: i.adapter,
+    adapter: i.adapter || null,
     adapter_type: i.adapter_type,
     mouse: i.mouse,
     keyboard: i.keyboard,
   }));
+
+  // const mapIdentifiers = array_data.map((i: any, index: number) => ({
+  //   hardware_id: hardware[index].id,
+  //   service_tag: i.service_tag,
+  //   express_code: i.express_code,
+  //   main_asset_number: i.main_asset_number,
+  // }));
 
   const mapBrands = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
@@ -49,7 +56,7 @@ export async function CreateDesktop(
     cpu: i.cpu,
     ram: i.ram,
     storage_type: i.storage_type,
-    storage_capacity: i.storage.capacity,
+    storage_capacity: i.storage_capacity || null,
     operating_system: i.operating_system,
     gpu: i.gpu,
     gpu_type: i.gpu_type,
@@ -60,13 +67,30 @@ export async function CreateDesktop(
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    db.HardwareMonitorDetails.bulkCreate(mapMonitorDetails, { transaction: t }),
-    db.HardwareComputerDetails.bulkCreate(mapComputerDetails, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
+    // await db.HardwareIdentifiers.bulkCreate(mapIdentifiers, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.MonitorDetails.bulkCreate(mapMonitorDetails, {
+      transaction: t,
+    }),
+    await db.ComputerDetails.bulkCreate(mapComputerDetails, {
       transaction: t,
     }),
   ]);
+  // ✅ รันทีละคำสั่งเรียงลำดับ เพื่อหาตัวที่พังจริง ๆ
+  // await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t });
+  // await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t });
+  // await db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t });
+  // await db.HardwareIdentifiers.bulkCreate(mapIdentifiers, { transaction: t });
+  // await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t });
+  // await db.MonitorDetails.bulkCreate(mapMonitorDetails, {
+  //   transaction: t,
+  // });
+  // await db.ComputerDetails.bulkCreate(mapComputerDetails, {
+  //   transaction: t,
+  // });
+
+  // return true;
 }

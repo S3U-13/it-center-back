@@ -46,11 +46,11 @@ export async function CreateMonitor(
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    db.HardwareMonitorDetails.bulkCreate(mapMonitorDetails, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.MonitorDetails.bulkCreate(mapMonitorDetails, {
       transaction: t,
     }),
   ]);

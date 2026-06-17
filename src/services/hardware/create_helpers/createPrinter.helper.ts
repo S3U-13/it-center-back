@@ -37,10 +37,10 @@ export async function CreatePrinter(
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    db.HardwarePrinterDetails.bulkCreate(mapPrinterDetails, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.PrinterDetails.bulkCreate(mapPrinterDetails, {
       transaction: t,
     }),
   ]);

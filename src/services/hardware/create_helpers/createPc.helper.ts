@@ -52,7 +52,7 @@ export async function CreatePc(array_data: any, hardware: any, t: Transaction) {
     cpu: i.cpu,
     ram: i.ram,
     storage_type: i.storage_type,
-    storage_capacity: i.storage.capacity,
+    storage_capacity: i.storage_capacity,
     operating_system: i.operating_system,
     gpu: i.gpu,
     gpu_type: i.gpu_type,
@@ -63,17 +63,15 @@ export async function CreatePc(array_data: any, hardware: any, t: Transaction) {
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
-    db.HardwareIdentifiers.bulkCreate(mapIdentifiers, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareAccessories.bulkCreate(mapAccessories, { transaction: t }),
+    // await db.HardwareIdentifiers.bulkCreate(mapIdentifiers, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.MonitorDetails.bulkCreate(mapMonitorDetails, {
       transaction: t,
     }),
-    db.HardwareMonitorDetails.bulkCreate(mapMonitorDetails, {
-      transaction: t,
-    }),
-    db.HardwareComputerDetails.bulkCreate(mapComputerDetails, {
+    await db.ComputerDetails.bulkCreate(mapComputerDetails, {
       transaction: t,
     }),
   ]);

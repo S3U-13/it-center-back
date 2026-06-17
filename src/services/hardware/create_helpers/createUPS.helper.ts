@@ -29,20 +29,20 @@ export async function CreateUPS(
     model: i.model,
   }));
 
-  const mapPrinterDetails = array_data.map((i: any, index: number) => ({
+  const mapUPSDetails = array_data.map((i: any, index: number) => ({
     hardware_id: hardware[index].id,
-    model: i.model,
-    brand: i.brand,
-    printer_type: i.printer_type,
-    connection: i.connection,
+    ups_type: i.ups_type,
+    battery_capacity: i.battery_capacity,
+    battery_quantity: i.battery_quantity,
+    installation_date: i.installation_date,
   }));
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    db.HardwarePrinterDetails.bulkCreate(mapPrinterDetails, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.UPSDetails.bulkCreate(mapUPSDetails, {
       transaction: t,
     }),
   ]);

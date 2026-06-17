@@ -83,7 +83,7 @@ export async function Monitor(query: Hardware.queryIndexType) {
       : [],
     funcUnitIds.length
       ? dbPPK.FuncUnit.findAll({
-          where: { FuncUnitID: { [Op.in]: funcUnitIds } },
+          where: { FuncunitID: { [Op.in]: funcUnitIds } },
         })
       : [],
   ]);
@@ -93,7 +93,7 @@ export async function Monitor(query: Hardware.queryIndexType) {
     ppkLocations.map((l: any) => [String(l.id), l.detailtext]),
   );
   const funcUnitMap = new Map(
-    ppkFuncUnits.map((f: any) => [String(f.FuncUnitID), f.FuncUnitName]),
+    ppkFuncUnits.map((f: any) => [String(f.FuncunitID), f.FuncunitName]),
   );
 
   // 3. จัดโครงสร้างผลลัพธ์ (ไม่ต้องใช้ await ใน map อีกต่อไป)
@@ -106,13 +106,13 @@ export async function Monitor(query: Hardware.queryIndexType) {
     return {
       id: row.id,
       sn: row.sn,
-      service_tag: row.Identifiers.service_tag,
-      main_asset_number: row.Identifiers.main_asset_number,
-      express_code: row.Identifiers.express_code,
+      // service_tag: row.Identifiers.service_tag,
+      // main_asset_number: row.Identifiers.main_asset_number,
+      // express_code: row.Identifiers.express_code,
       rpj_no: row.rpj_no,
       note: row.note,
       pay_date: row.pay_date,
-      machine_name: row.machine_name,
+      // machine_name: row.machine_name,
       hardware_type: row.hardware_type,
       payer: row.payer,
       location: locationMap.get(locId) || "ไม่ระบุ",

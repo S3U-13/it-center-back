@@ -35,18 +35,18 @@ export async function CreateTablet(
     imei_no: i.imei_no,
     storage: i.storage,
     operating_system: i.operating_system,
+    os_version: i.os_version,
     mac_address_wifi: i.mac_address_wifi,
     mac_address_bluetooth: i.mac_address_bluetooth,
     pen_status: i.pen_status,
-    connection: i.connection,
   }));
 
   // 🟢 แก้ไขตรงนี้: เปลี่ยนจาก { t } เป็น { transaction: t }
   return await Promise.all([
-    db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
-    db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
-    db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
-    db.HardwareTabletDetails.bulkCreate(mapTabletDetails, {
+    await db.HardwareLocations.bulkCreate(mapLocation, { transaction: t }),
+    await db.HardwarePurchases.bulkCreate(mapPurchase, { transaction: t }),
+    await db.HardwareBrands.bulkCreate(mapBrands, { transaction: t }),
+    await db.HardwareTabletDetails.bulkCreate(mapTabletDetails, {
       transaction: t,
     }),
   ]);
