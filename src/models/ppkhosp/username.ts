@@ -8,13 +8,13 @@ import {
 import { sequelize } from "./index"; // ✨ แก้จุดนี้: ให้ดึงอินสแตนซ์มาจากศูนย์กลาง index.ts ในโฟลเดอร์เดียวกัน
 
 // 1. สร้าง Class โดยใช้ InferAttributes เพื่อให้ดึง Type ไปใช้ได้อัตโนมัติ
-class AppUser extends Model<
-  InferAttributes<AppUser>,
-  InferCreationAttributes<AppUser>
+class AppUsername extends Model<
+  InferAttributes<AppUsername>,
+  InferCreationAttributes<AppUsername>
 > {
+  declare username: CreationOptional<string>;
   declare userid: CreationOptional<number>;
-  declare personid: CreationOptional<number>;
-  declare active: CreationOptional<string>;
+  declare userdesc: CreationOptional<string>;
 
   // 📝 เพิ่มช่องสำหรับทำความสัมพันธ์ (Associations) รองรับระบบใน index.ts v6
   static associate(models: any) {
@@ -23,27 +23,27 @@ class AppUser extends Model<
 }
 
 // 2. กำหนดโครงสร้างคอลัมน์ (Schema) ของตาราง
-AppUser.init(
+AppUsername.init(
   {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     userid: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    personid: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    active: {
-      type: DataTypes.STRING(1),
+    userdesc: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },
   {
     sequelize, // ใช้ตัวแปรอินสแตนซ์ที่ดึงมาจาก index.ts
-    tableName: "app_user",
+    tableName: "app_username",
     timestamps: false,
   },
 );
 
-export default AppUser;
+export default AppUsername;

@@ -10,7 +10,7 @@ const env = process.env.NODE_ENV || "development";
 
 // 1. ดึงค่า Config
 const rawConfig = require(
-  path.resolve(__dirname, "..", "..", "config", "config-ppkhosp"),
+  path.resolve(__dirname, "..", "..", "config", "config-user"),
 );
 const config = rawConfig.default ? rawConfig.default[env] : rawConfig[env];
 
@@ -72,37 +72,26 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-// เปลี่ยนจาก hasMany เป็น hasOne เพื่อให้ person.User ออกมาเป็น Object ตัวเดียว ไม่ใช่ Array
-db.AppPerson.hasOne(db.AppUser, {
-  foreignKey: "personid",
+db.Users.hasOne(db.UserAccess, {
+  foreignKey: "userid",
+  sourceKey: "userid",
+  as: "Access",
+});
+
+db.UserAccess.belongsTo(db.Users, {
+  foreignKey: "userid",
+  targetKey: "userid",
   as: "User",
 });
 
-db.AppUser.belongsTo(db.AppPerson, {
-  foreignKey: "personid",
+db.UserAccess.belongsTo(db.Options, {
+  foreignKey: "type_id",
+  as: "Type",
 });
 
-db.AppUser.hasOne(db.AppUsername, {
-  foreignKey: "userid",
-  as: "Username",
-});
-
-db.AppUsername.belongsTo(db.AppUser, {
-  foreignKey: "userid",
-});
-
-// เจาะจงส่ง targetKey: "lookupid" เพื่อป้องกัน Sequelize เดาไปจับคู่กับ lookuptypeid
-db.AppPerson.belongsTo(db.Lookup, {
-  foreignKey: "salutation",
-  targetKey: "lookupid",
-  as: "Salutation",
-});
-
-// ตรวจสอบชื่อโมเดล db.FuncUnit กับ db.Funcunit ให้ตรงกับชื่อไฟล์โมเดลจริงของคุณอีกครั้งนะครับ
-db.AppPerson.belongsTo(db.FuncUnit, {
-  foreignKey: "FuncUnitID",
-  targetKey: "FuncunitID", // ระบุคีย์ฝั่งตารางหน่วยงานให้ชัดเจน
-  as: "FuncUnitName",
+db.UserAccess.belongsTo(db.Options, {
+  foreignKey: "role_id",
+  as: "Role",
 });
 
 // 5. ส่งออกระบบไปใช้ร่วมกัน

@@ -8,20 +8,15 @@ import {
 import { sequelize } from "./index"; // ✨ แก้จุดนี้: ให้ดึงอินสแตนซ์มาจากศูนย์กลาง index.ts ในโฟลเดอร์เดียวกัน
 
 // 1. สร้าง Class โดยใช้ InferAttributes เพื่อให้ดึง Type ไปใช้ได้อัตโนมัติ
-class AppPerson extends Model<
-  InferAttributes<AppPerson>,
-  InferCreationAttributes<AppPerson>
+class UserAccess extends Model<
+  InferAttributes<UserAccess>,
+  InferCreationAttributes<UserAccess>
 > {
   declare id: CreationOptional<number>;
-  declare salutation: CreationOptional<number>;
-  declare firstname: CreationOptional<string>;
-  declare lastname: CreationOptional<string>;
-  declare GroID: CreationOptional<number>;
-  declare OffID: CreationOptional<number>;
-  declare PosID: CreationOptional<number>;
+  declare userid: CreationOptional<number>;
   declare FuncUnitID: CreationOptional<number>;
-  declare StatusID: CreationOptional<number>;
-  declare CITIZEN: CreationOptional<string>;
+  declare type_id: CreationOptional<number>;
+  declare role_id: CreationOptional<number>;
   declare active: CreationOptional<string>;
 
   // 📝 เพิ่มช่องสำหรับทำความสัมพันธ์ (Associations) รองรับระบบใน index.ts v6
@@ -31,34 +26,14 @@ class AppPerson extends Model<
 }
 
 // 2. กำหนดโครงสร้างคอลัมน์ (Schema) ของตาราง
-AppPerson.init(
+UserAccess.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    salutation: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    firstname: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    lastname: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    GroID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    OffID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    PosID: {
+    userid: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -66,12 +41,12 @@ AppPerson.init(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    StatusID: {
+    type_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    CITIZEN: {
-      type: DataTypes.STRING,
+    role_id: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     active: {
@@ -81,9 +56,9 @@ AppPerson.init(
   },
   {
     sequelize, // ใช้ตัวแปรอินสแตนซ์ที่ดึงมาจาก index.ts
-    tableName: "app_person",
+    tableName: "user_access",
     timestamps: false,
   },
 );
 
-export default AppPerson;
+export default UserAccess;
