@@ -1,5 +1,47 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
+
+let cachedCentralPublicKey: string | null = null;
+
+async function getCentralPublicKey(): Promise<string | null> {
+  if (cachedCentralPublicKey) return cachedCentralPublicKey;
+
+  if (process.env.JWT_PUBLIC_KEY) {
+    cachedCentralPublicKey = process.env.JWT_PUBLIC_KEY.replace(/\\n/g, "\n");
+    return cachedCentralPublicKey;
+  }
+
+  const keyPaths = [
+    path.resolve(process.cwd(), "keys", "public.pem"),
+    path.resolve(__dirname, "../../keys", "public.pem"),
+    path.resolve(__dirname, "../../../auth-ppk-api/keys", "public.pem"),
+  ];
+
+  for (const kp of keyPaths) {
+    if (fs.existsSync(kp)) {
+      try {
+        cachedCentralPublicKey = fs.readFileSync(kp, "utf8");
+        return cachedCentralPublicKey;
+      } catch {}
+    }
+  }
+
+  const authUrl = process.env.CENTRAL_AUTH_URL || "http://localhost:3007";
+  try {
+    const res = await fetch(`${authUrl}/api/auth/public-key`);
+    if (res.ok) {
+      const data = (await res.json()) as any;
+      if (data?.publicKey) {
+        cachedCentralPublicKey = data.publicKey;
+        return cachedCentralPublicKey;
+      }
+    }
+  } catch {}
+
+  return null;
+}
 
 // 💡 สร้าง Interface สำหรับข้อมูลที่อยู่ใน Token
 interface UserPayload extends jwt.JwtPayload {
@@ -21,7 +63,7 @@ declare global {
 }
 
 // 🔐 ตรวจสอบ token
-export function authenticateToken(
+export async function authenticateToken(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -45,13 +87,29 @@ export function authenticateToken(
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      (process.env.JWT_SECRET || "secretkey") as string,
-    ) as UserPayload;
+    const decodedToken = jwt.decode(token, { complete: true }) as {
+      header?: { alg?: string };
+    } | null;
+    const alg = decodedToken?.header?.alg;
+
+    let decoded: UserPayload;
+
+    if (alg === "RS256") {
+      const publicKey = await getCentralPublicKey();
+      if (!publicKey) {
+        return res.status(500).json({ error: "Central auth public key not found" });
+      }
+      decoded = jwt.verify(token, publicKey, { algorithms: ["RS256"] }) as UserPayload;
+    } else {
+      decoded = jwt.verify(
+        token,
+        (process.env.JWT_SECRET || "secretkey") as string,
+        { algorithms: ["HS256"] }
+      ) as UserPayload;
+    }
 
     req.user = decoded;
-    return next(); // เติม return เพื่อความปลอดภัยของ Flow โค้ด
+    return next();
   } catch (err: any) {
     if (err.name === "TokenExpiredError") {
       return res.status(403).json({ error: "Token expired" });
