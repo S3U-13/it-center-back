@@ -1,0 +1,13 @@
+services:
+  it-center-api:
+    container_name: it-center-back
+    image: it-center-back:v1.0.0
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    env_file:
+      - .env
+    ports:
+      - "${PORTAPP:-3002}:${PORTAPP:-3002}"
+    restart: unless-stopped
